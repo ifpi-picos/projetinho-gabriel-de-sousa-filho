@@ -77,52 +77,75 @@ export function removeLivros(list){
     }
 }
 
+function data(){
+    const dataAt = new Date();
+    let dia = dataAt.getDate();
+    let mes = dataAt.getMonth() + 1;
+    let ano = dataAt.getFullYear();
+    if(dia >= 1 && dia <=9){
+        dia = "0" + dia
+    }
+        
+    if(mes >= 9 && mes < 12){
+        mes = mes + 1
+    }
+    else if(mes >= 1 && mes<9){
+        mes = "0" + (mes+1)
+    }
+        
+    else if(mes == 12){
+        ano = ano + 1
+        mes = "0" + 1
+    }
+    const dataFormat = `${dia}/${mes}/${ano}`
+    return dataFormat;
+
+}
+
 export function emprestimo(list,listH, listUs){
     const idemp = parseInt(prompt("Digite o Id do livro que deseja reservar:"))
     
     for(let l of list){
         if(l.IdLivro === idemp && l.Disponibilidade === true){
             console.log("O livro está disponível para empréstimo!")
-            let dataemp = prompt("Digite a data do empréstimo no formato xx/xx/xxxx:")
             let nomemp = prompt("Digite o seu nome de usuário:")
-            let dataN = dataemp.length
-            if(dataN === 10){
-                let y = dataemp.split("/")
-                let d = parseInt(y[0])
-                let m = parseInt(y[1])
-                let a = parseInt(y[2]) 
-                
-                if(d >= 1 && d <=9){
-                    d = "0" + d
-                }
-                
-                if(m >= 9 && m < 12){
-                    m = m + 1
-                }
-                else if(m >= 1 && m<9){
-                    m = "0" + (m+1)
-                }
-                
-                else if(m == 12){
-                    a = a + 1
-                    m = "0" + 1
-                }
-                
-                let ind = list.indexOf(l)
-                let dataD = `${d}/${m}/${a}`
-                list[ind].DataEmprestimo = dataemp
-                list[ind].DataDevolucao = dataD
-                list[ind].NomeUsuario = nomemp
-                list[ind].Disponibilidade = false
-                listH.push({Nome: l.Titulo, Usuario: l.NomeUsuario, DataE: l.DataEmprestimo, DataD: l.DataDevolucao})
-                listUs.push({nUsuario: l.NomeUsuario, NomeLivro: l.Titulo, DataDoEmprestimo: l.DataEmprestimo, DataDevolvida: l.DataDevolucao})
+            let y = data().split("/")
+            let d = parseInt(y[0])
+            let m = parseInt(y[1])
+            let a = parseInt(y[2])
+               
+            if(d >= 1 && d <=9){
+                d = "0" + d
             }
-            else {
-            console.log('data inválida')
+                
+            if(m >= 9 && m < 12){
+                m = m + 1
             }
+            else if(m >= 1 && m<9){
+                m = "0" + (m+1)
+            }
+                
+            else if(m == 12){
+                a = a + 1
+                m = "0" + 1
+            }
+                
+            let dataD = `${d}/${m}/${a}`
+            let ind = list.indexOf(l)
+            list[ind].DataEmprestimo = data()
+            list[ind].DataDevolucao = dataD
+            list[ind].NomeUsuario = nomemp
+            list[ind].Disponibilidade = false
+            listH.push({Nome: l.Titulo, Usuario: l.NomeUsuario, DataE: l.DataEmprestimo, DataD: l.DataDevolucao})
+            listUs.push({nUsuario: l.NomeUsuario, NomeLivro: l.Titulo, DataDoEmprestimo: l.DataEmprestimo, DataDevolvida: l.DataDevolucao})
+        }
+                
+        else {
+            console.log('O livro não está disponível para empréstimo!')
         }
     }
 }
+
 
 export function devolucao(list){
     const livroDev = parseInt(prompt("Digite o Id do livro que deseja devolver:"))
