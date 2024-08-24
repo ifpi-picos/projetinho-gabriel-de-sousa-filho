@@ -1,5 +1,6 @@
 import { adicionarLivros } from "./functionBiblioteca";
 import { listarLivros } from "./functionBiblioteca";
+import { listarLivrosEmprest } from "./functionBiblioteca";
 import { editarLivros } from "./functionBiblioteca";
 import { removeLivros } from "./functionBiblioteca";
 import { emprestimo } from "./functionBiblioteca";
@@ -16,7 +17,7 @@ let listaUss= []
 
 let cont = 3
 while(cont == 3){
-    console.log('-----MENU----- \n 1- Adicionar livro \n 2- Listar Livros \n 3- Listar Livros Emprestados \n 4- Editar livro \n 5- Remover Livro \n 6-Realizar empréstimo \n 7- para devolver livro \n 8-Listar emprestimos por livro \n 9-Listar empréstimos por Usuário')
+    console.log('\n-----MENU-----\n 1-Adicionar livro \n 2-Listar Livros \n 3-Listar Livros Emprestados \n 4-Editar livro \n 5-Remover Livro \n 6-Realizar empréstimo \n 7-Devolver livro \n 8-Listar emprestimos por livro \n 9-Listar empréstimos por Usuário \n 10-Encerrar')
     const menu = parseInt(prompt("Digite um número de acordo com a função: "))
     switch(menu){
         case 1:
@@ -26,22 +27,27 @@ while(cont == 3){
             listarLivros(listaLivros)
             break;
         case 3:
-            editarLivros(listaLivros)
+            listarLivrosEmprest(listaLivros)
             break;
         case 4:
-            removeLivros(listaLivros)
+            editarLivros(listaLivros)
             break;
         case 5:
-            emprestimo(listaLivros,histL,listaUss)
+            removeLivros(listaLivros)
             break;
         case 6:
-            devolucao(listaLivros)
+            emprestimo(listaLivros,histL,listaUss)
             break;
         case 7:
-            empPorLivro(histL)
+            devolucao(listaLivros)
             break;
         case 8:
+            empPorLivro(histL)
+            break;
+        case 9:
             empPorUsuario(listaUss)
             break;
+        case 10:
+            cont = 12;
     }
 }

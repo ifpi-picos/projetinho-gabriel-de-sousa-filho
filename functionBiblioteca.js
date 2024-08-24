@@ -32,8 +32,14 @@ export function adicionarLivros(list){
 }
 
 export function listarLivros(list){
-    console.log("Livros disponíveis:")
-    console.table(list)
+    const livrosDisponiveis = list.filter((livros) => livros.Disponibilidade == true)
+    console.table(livrosDisponiveis)
+    
+}
+
+export function listarLivrosEmprest(list){
+    const livrosEmprestados = list.filter((books) => books.Disponibilidade == false)
+    console.table(livrosEmprestados)
 }
 
 
@@ -81,10 +87,6 @@ export function emprestimo(list,listH, listUs){
             let nomemp = prompt("Digite o seu nome de usuário:")
             let dataN = dataemp.length
             if(dataN === 10){
-
-                let ind = list.indexOf(l)
-
-
                 let y = dataemp.split("/")
                 let d = parseInt(y[0])
                 let m = parseInt(y[1])
@@ -106,13 +108,14 @@ export function emprestimo(list,listH, listUs){
                     m = "0" + 1
                 }
                 
+                let ind = list.indexOf(l)
                 let dataD = `${d}/${m}/${a}`
                 list[ind].DataEmprestimo = dataemp
                 list[ind].DataDevolucao = dataD
                 list[ind].NomeUsuario = nomemp
                 list[ind].Disponibilidade = false
                 listH.push({Nome: l.Titulo, Usuario: l.NomeUsuario, DataE: l.DataEmprestimo, DataD: l.DataDevolucao})
-                listUs.push({nUsuario: l.NomeUsuario, NomeLivro: l.Titulo, DataEmp: l.DataEmprestimo, DataDevolver: l.DataDevolucao})
+                listUs.push({nUsuario: l.NomeUsuario, NomeLivro: l.Titulo, DataDoEmprestimo: l.DataEmprestimo, DataDevolvida: l.DataDevolucao})
             }
             else {
             console.log('data inválida')
