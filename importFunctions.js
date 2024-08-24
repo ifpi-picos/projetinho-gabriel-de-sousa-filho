@@ -1,6 +1,5 @@
 import { adicionarLivros } from "./functionBiblioteca";
 import { listarLivros } from "./functionBiblioteca";
-import { listarLivrosEmprestados } from "./functionBiblioteca";
 import { editarLivros } from "./functionBiblioteca";
 import { removeLivros } from "./functionBiblioteca";
 import { emprestimo } from "./functionBiblioteca";
@@ -10,7 +9,6 @@ import { empPorUsuario } from "./functionBiblioteca";
 
 
 let listaLivros = []
-let listaLivrosEmp = []
 let histL = []
 let listaUss= []
 
@@ -28,24 +26,21 @@ while(cont == 3){
             listarLivros(listaLivros)
             break;
         case 3:
-            listarLivrosEmprestados(listaLivrosEmp)
-            break;
-        case 4:
             editarLivros(listaLivros)
             break;
-        case 5:
+        case 4:
             removeLivros(listaLivros)
             break;
+        case 5:
+            emprestimo(listaLivros,histL,listaUss)
+            break;
         case 6:
-            emprestimo(listaLivros, listaLivrosEmp,histL,listaUss)
+            devolucao(listaLivros)
             break;
         case 7:
-            devolucao(listaLivrosEmp, listaLivros)
-            break;
-        case 8:
             empPorLivro(histL)
             break;
-        case 9:
+        case 8:
             empPorUsuario(listaUss)
             break;
     }

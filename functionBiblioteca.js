@@ -28,18 +28,14 @@ export function adicionarLivros(list){
             generoLivro = prompt("*Campo Obrigatório* -> Digite o genero do livro:")
         }
     }
-    list.push({Titulo: tituloLivro, Autor: autorLivro, Ano: anoLivro, Genero: generoLivro, IdLivro: gerarId(list)})
+    list.push({Titulo: tituloLivro, Autor: autorLivro, Ano: anoLivro, Genero: generoLivro, IdLivro: gerarId(list), Disponibilidade: true})
 }
 
-export function listarLivros(list,listaemp){
+export function listarLivros(list){
     console.log("Livros disponíveis:")
     console.table(list)
 }
 
-export function listarLivrosEmprestados(listaemp){
-    console.log(" Livros Emprestados:")
-    console.table(listaemp) 
-}
 
 export function editarLivros(list){
     const qualLivro = parseInt(prompt("\nDigite o Id do livro que deseja editar:"))
@@ -60,14 +56,14 @@ export function editarLivros(list){
 }
 
 export function removeLivros(list){
-    const removLivro = parseInt(prompt("\n Digite o Id do Livro que deseja remover:"))
+    const removLivro = parseInt(prompt("\nDigite o Id do Livro que deseja remover:"))
     for(let livrinho of list){
         if(livrinho.IdLivro === removLivro){
-            const k = prompt("Tem certeza que deseja remover esse livro? Digite S para Sim e N para NÂO:")
+            const k = prompt("Tem certeza que deseja remover esse livro? Digite SIM para Sim e NAO para NÂO:")
             if(k === "S"){
                 let index = list.indexOf(livrinho)
                 list.splice(index, 1)
-                console.log("Livro Removido:")
+                console.log("Livro Removido!")
                 
             }
             
@@ -75,22 +71,19 @@ export function removeLivros(list){
     }
 }
 
-export function emprestimo(list,listaemp,listH, listUs){
+export function emprestimo(list,listH, listUs){
     const idemp = parseInt(prompt("Digite o Id do livro que deseja reservar:"))
     
     for(let l of list){
-        if(l.IdLivro === idemp){
+        if(l.IdLivro === idemp && l.Disponibilidade === true){
             console.log("O livro está disponível para empréstimo!")
             let dataemp = prompt("Digite a data do empréstimo no formato xx/xx/xxxx:")
             let nomemp = prompt("Digite o seu nome de usuário:")
             let dataN = dataemp.length
             if(dataN === 10){
-                listaemp.push(l)
 
                 let ind = list.indexOf(l)
-                list.splice(ind,1)
 
-                let index = listaemp.indexOf(l)
 
                 let y = dataemp.split("/")
                 let d = parseInt(y[0])
@@ -101,22 +94,23 @@ export function emprestimo(list,listaemp,listH, listUs){
                     d = "0" + d
                 }
                 
-                if(m >= 1 && m<9){
+                if(m >= 9 && m < 12){
+                    m = m + 1
+                }
+                else if(m >= 1 && m<9){
                     m = "0" + (m+1)
                 }
                 
-                if(m>=12){
+                else if(m == 12){
                     a = a + 1
-                }
-
-                if(m == 12){
                     m = "0" + 1
                 }
                 
                 let dataD = `${d}/${m}/${a}`
-                listaemp[index].DataEmprestimo = dataemp
-                listaemp[index].DataDevolucao = dataD
-                listaemp[index].NomeUsuario = nomemp
+                list[ind].DataEmprestimo = dataemp
+                list[ind].DataDevolucao = dataD
+                list[ind].NomeUsuario = nomemp
+                list[ind].Disponibilidade = false
                 listH.push({Nome: l.Titulo, Usuario: l.NomeUsuario, DataE: l.DataEmprestimo, DataD: l.DataDevolucao})
                 listUs.push({nUsuario: l.NomeUsuario, NomeLivro: l.Titulo, DataEmp: l.DataEmprestimo, DataDevolver: l.DataDevolucao})
             }
@@ -127,17 +121,16 @@ export function emprestimo(list,listaemp,listH, listUs){
     }
 }
 
-export function devolucao(listaemp,list){
+export function devolucao(list){
     const livroDev = parseInt(prompt("Digite o Id do livro que deseja devolver:"))
     const datDevolucao = prompt("Digite a data de devolucao do livro:")
-    for(let livro of listaemp ){
-        if(livro.IdLivro === livroDev && livro.DataDevolucao == datDevolucao){
-            let indice = listaemp.indexOf(livro)
-            delete listaemp[indice].DataEmprestimo
-            delete listaemp[indice].NomeUsuario
-            delete listaemp[indice].DataDevolucao
-            list.push(livro)
-            listaemp.splice(indice,1)
+    for(let livro of list ){
+        if(livro.IdLivro === livroDev && livro.DataDevolucao == datDevolucao && livro.Disponibilidade === false){
+            let indice = list.indexOf(livro)
+            delete list[indice].DataEmprestimo
+            delete list[indice].NomeUsuario
+            delete list[indice].DataDevolucao
+            list[indice].Disponibilidade = true
         }
     }
 }
