@@ -48,10 +48,24 @@ export function editarLivros(list){
     for(let livro of list){
         if(livro.IdLivro === qualLivro){
             let index = list.indexOf(livro)
-            const novoTitulo = prompt("Digite o novo Título do Livro:")
-            const novoAutor = prompt("Digite o novo Autor do Livro:")
-            const novoAno = parseInt(prompt("Digite o novo Ano do Livro:"))
-            const novoGenero = prompt("Digite o novo Gênero do Livro:")
+            let novoTitulo = prompt("Digite o novo Título do Livro:")
+            let novoAutor = prompt("Digite o novo Autor do Livro:")
+            let novoAno = parseInt(prompt("Digite o novo Ano do Livro:"))
+            let novoGenero = prompt("Digite o novo Gênero do Livro:")
+            while(novoTitulo === null || novoAutor === null || isNaN(novoAno) || novoGenero === null){
+                if(novoTitulo == null){
+                    novoTitulo = prompt("Campo Obrigatório --> Digite o novo Título do Livro:")
+                }
+                if(novoAutor == null){
+                    novoAutor = prompt("Campo Obrigatório --> Digite o novo Autor do Livro:")
+                }
+                if(novoGenero == null){
+                    novoGenero = prompt("Campo Obrigatório --> Digite o novo Gênero do Livro:")
+                }
+                if(isNaN(novoAno)){
+                    novoAno = parseInt(prompt("Campo Obrigatório -->Digite o novo Ano do Livro:"))
+                }
+            }
             list[index].Titulo = novoTitulo
             list[index].Autor = novoAutor
             list[index].Ano = novoAno
